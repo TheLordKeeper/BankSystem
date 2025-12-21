@@ -32,6 +32,14 @@ void BankSystem::signup() {
   std::cout << "Please enter your username: ";
   std::cin >> username;
 
+  if (std::cin.fail()) {
+    std::cin.clear();
+    std::cin.ignore(1000, '\n');
+    std::system("clear");
+    std::cout << "Invalid input. Try again.\n\n";
+    return;
+  }
+
   for (const auto &acc : accounts) {
     if (username == acc->getUsername()) {
       std::cout << "This username is already taken!\n\n";
@@ -79,6 +87,14 @@ void Account::deposit(Account &user) {
             << "\n\nPlease enter the amount you wish to deposit: $";
   std::cin >> amount;
 
+  if (std::cin.fail()) {
+    std::cin.clear();
+    std::cin.ignore(1000, '\n');
+    std::system("clear");
+    std::cout << "Invalid input. Try again.\n\n";
+    return;
+  }
+
   std::system("clear");
 
   if (amount < 0) {
@@ -96,6 +112,14 @@ void Account::withdraw(Account &user) {
   std::cout << "Balance: $" << user.getBalance()
             << "\n\nPlease enter the amount you wish to withdraw: $";
   std::cin >> amount;
+
+  if (std::cin.fail()) {
+    std::cin.clear();
+    std::cin.ignore(1000, '\n');
+    std::system("clear");
+    std::cout << "Invalid input. Try again.\n\n";
+    return;
+  }
 
   std::system("clear");
 
