@@ -14,14 +14,14 @@ public:
 
   std::string &getUsername() { return username; }
   std::string &getPassword() { return password; }
-  int &getBalance() { return balance; }
+  double &getBalance() { return balance; }
 
-  void deposit();
-  void withdraw();
+  void deposit(Account &user);
+  void withdraw(Account &user);
   bool logout();
 
 private:
-  int balance{0};
+  double balance{0};
   std::string username;
   std::string password;
 };

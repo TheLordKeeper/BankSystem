@@ -72,14 +72,53 @@ bool Account::logout() {
   }
 }
 
-void Account::deposit() { return; }
+void Account::deposit(Account &user) {
+  std::system("clear");
+  double amount{0.0};
+  std::cout << "Balance: $" << user.getBalance()
+            << "\n\nPlease enter the amount you wish to deposit: $";
+  std::cin >> amount;
 
-void Account::withdraw() { return; }
+  std::system("clear");
+
+  if (amount < 0) {
+    std::cout << "Error! Invalid value!\n\n";
+    return;
+  }
+
+  user.getBalance() += amount;
+  std::cout << "Operation sucessful!\n\n";
+}
+
+void Account::withdraw(Account &user) {
+  std::system("clear");
+  double amount{0.0};
+  std::cout << "Balance: $" << user.getBalance()
+            << "\n\nPlease enter the amount you wish to withdraw: $";
+  std::cin >> amount;
+
+  std::system("clear");
+
+  if (amount < 0) {
+    std::cout << "Error! Invalid value!\n\n";
+    return;
+  }
+
+  if (user.getBalance() >= amount) {
+    user.getBalance() -= amount;
+    std::cout << "Operation sucessful!\n\n";
+  } else {
+    std::cout << "You do not have the required balance!\n\n";
+  }
+
+  return;
+}
 
 void ::BankSystem::dashboard(Account &user) {
+  std::system("clear");
+
   bool running{true};
   while (running) {
-    std::system("clear");
     int choice{0};
     std::cout
         << "Balance: $" << user.getBalance() << "\n\nWelcome, "
@@ -90,10 +129,10 @@ void ::BankSystem::dashboard(Account &user) {
 
     switch (choice) {
     case 1:
-      user.deposit();
+      user.deposit(user);
       break;
     case 2:
-      user.withdraw();
+      user.withdraw(user);
       break;
     default:
       if (user.logout()) {
