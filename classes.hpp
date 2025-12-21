@@ -1,6 +1,7 @@
 #ifndef classes
 #define classes
 
+#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
@@ -13,6 +14,11 @@ public:
 
   std::string &getUsername() { return username; }
   std::string &getPassword() { return password; }
+  int &getBalance() { return balance; }
+
+  void deposit();
+  void withdraw();
+  bool logout();
 
 private:
   int balance{0};
@@ -26,10 +32,10 @@ public:
 
 private:
   std::vector<std::unique_ptr<Account>> accounts{};
-  std::optional<Account> login();
+  std::optional<std::reference_wrapper<Account>> login();
   int menu();
   void signup();
-  void dashboard(Account user);
+  void dashboard(Account &user);
 };
 
 #endif

@@ -1,10 +1,11 @@
 #include "classes.hpp"
 #include <cstdlib>
+#include <functional>
 #include <iostream>
 #include <memory>
 #include <optional>
 
-std::optional<Account> BankSystem::login() {
+std::optional<std::reference_wrapper<Account>> BankSystem::login() {
   std::string username{};
   std::string password{};
 
@@ -17,7 +18,7 @@ std::optional<Account> BankSystem::login() {
   ;
   for (const auto &acc : accounts) {
     if (username == acc->getUsername() && password == acc->getPassword()) {
-      return *acc;
+      return std::ref(*acc);
     }
   };
   return std::nullopt;
@@ -42,7 +43,9 @@ void BankSystem::signup() {
   std::cin >> password;
 
   accounts.push_back(std::make_unique<Account>(username, password));
-  std::cout << "Account Created!";
+
+  std::system("clear");
+  std::cout << "Account Created!\n\n";
 
   return;
 }
@@ -55,16 +58,58 @@ int BankSystem::menu() {
   return choice;
 }
 
-void ::BankSystem::dashboard(Account user) {
+bool Account::logout() {
   std::system("clear");
-  return;
+
+  int choice{0};
+  std::cout << "Are you sure you want to logout?\n1:Yes\n0:No\n";
+  std::cin >> choice;
+
+  if (choice == 1) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+void Account::deposit() { return; }
+
+void Account::withdraw() { return; }
+
+void ::BankSystem::dashboard(Account &user) {
+  bool running{true};
+  while (running) {
+    std::system("clear");
+    int choice{0};
+    std::cout
+        << "Balance: $" << user.getBalance() << "\n\nWelcome, "
+        << user.getUsername()
+        << "! Please choose an option:\n1: Deposit\n2: Withdraw\n0: Logout\n";
+
+    std::cin >> choice;
+
+    switch (choice) {
+    case 1:
+      user.deposit();
+      break;
+    case 2:
+      user.withdraw();
+      break;
+    default:
+      if (user.logout()) {
+        std::system("clear");
+        return;
+      }
+      break;
+    }
+  }
 }
 
 void BankSystem::run() {
+  std::system("clear");
   bool running{true};
 
   while (running) {
-
     switch (menu()) {
     case 1:
       if (auto result = login()) {
