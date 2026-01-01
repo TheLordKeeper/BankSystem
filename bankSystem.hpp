@@ -1,6 +1,4 @@
-#ifndef classes
-#define classes
-
+#pragma once
 #include <functional>
 #include <memory>
 #include <optional>
@@ -37,5 +35,3 @@ private:
   void signup();
   void dashboard(Account &user);
 };
-
-#endif
